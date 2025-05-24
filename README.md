@@ -1,0 +1,2 @@
+# comparedirs
+compare dirs
