@@ -1,60 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+:root {
+  --primary: #4f46e5;
+  --background: #f9f9f9;
+  --text: #1f2937;
+  --border: #e5e7eb;
+  --green: #22c55e;
+  --red: #ef4444;
+  --yellow: #facc15;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  .app {
-    max-width: 800px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  .inputs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
+  font-family: "Inter", sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+  margin: 0;
+  padding: 40px;
+}
+
+.app {
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.inputs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+
   input {
     flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
   }
-  
+
   button {
-    padding: 8px 12px;
-    background: #007bff;
+    background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: (var(--primary), 10%);
+    }
   }
-  
-  .results .result {
-    padding: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    border-radius: 4px;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.result {
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--primary);
+  border-radius: 6px;
+  padding: 16px;
+  background-color: white;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
-  
-  .result.added { background: #e6ffed; }
-  .result.deleted { background: #ffe6e6; }
-  .result.modified { background: #fffbe6; }
-  
+
+  &.added {
+    border-left-color: var(--green);
+  }
+  &.deleted {
+    border-left-color: var(--red);
+  }
+  &.modified {
+    border-left-color: var(--yellow);
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
   pre {
-    background: #f8f8f8;
-    padding: 10px;
+    background: #f3f4f6;
+    padding: 12px;
     border-radius: 4px;
     overflow-x: auto;
+    margin-top: 8px;
+    font-size: 0.9rem;
   }
-  
+
+  .diff-line {
+    display: block;
+    margin-bottom: 4px;
+    font-family: monospace;
+
+    &.old {
+      color: var(--red);
+    }
+    &.new {
+      color: var(--green);
+    }
+  }
+}

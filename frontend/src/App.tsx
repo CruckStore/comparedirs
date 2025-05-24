@@ -4,15 +4,25 @@ type Diff = { line: number; old: string; new: string };
 type Result = { file: string; status: string; diffs?: Diff[] };
 
 const App: React.FC = () => {
-  const [dir1, setDir1] = useState('');
-  const [dir2, setDir2] = useState('');
+  const [dir1Handle, setDir1Handle] = useState<FileSystemDirectoryHandle | null>(null);
+  const [dir2Handle, setDir2Handle] = useState<FileSystemDirectoryHandle | null>(null);
   const [results, setResults] = useState<Result[]>([]);
 
+  const pickDir = async (setDir: (handle: FileSystemDirectoryHandle) => void) => {
+    const handle = await (window as any).showDirectoryPicker();
+    setDir(handle);
+  };
+
   const compare = async () => {
+    if (!dir1Handle || !dir2Handle) return alert('select folder before compare');
+
     const res = await fetch('http://localhost:3001/compare', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dir1, dir2 }),
+      body: JSON.stringify({
+        dir1: (dir1Handle as any).name,
+        dir2: (dir2Handle as any).name,
+      }),
     });
     const data = await res.json();
     setResults(data);
@@ -20,11 +30,11 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <h1>comparedir</h1>
+      <h1>compare dir</h1>
       <div className="inputs">
-        <input type="text" placeholder="path 1" value={dir1} onChange={e => setDir1(e.target.value)} />
-        <input type="text" placeholder="path 2" value={dir2} onChange={e => setDir2(e.target.value)} />
-        <button onClick={compare}>compare folder</button>
+        <button onClick={() => pickDir(setDir1Handle)}>chose folder 1</button>
+        <button onClick={() => pickDir(setDir2Handle)}>chose folder 2</button>
+        <button onClick={compare} disabled={!dir1Handle || !dir2Handle}>compare</button>
       </div>
       <div className="results">
         {results.map((r, i) => (
@@ -34,9 +44,8 @@ const App: React.FC = () => {
               <pre>
                 {r.diffs.map((d, idx) => (
                   <div key={idx}>
-                    line {d.line} :
-                    <br />- {d.old}
-                    <br />+ {d.new}
+                    <span className="diff-line old">- {d.old} (line {d.line})</span>
+                    <span className="diff-line new">+ {d.new} (line {d.line})</span>
                   </div>
                 ))}
               </pre>
