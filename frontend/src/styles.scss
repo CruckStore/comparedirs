@@ -35,26 +35,21 @@ h1 {
   gap: 12px;
   margin-bottom: 30px;
 
-  input {
-    flex: 1;
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-
   button {
+    flex: 1;
     background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 6px;
-    padding: 10px 20px;
+    padding: 12px;
     font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 
     &:hover {
-      background-color: (var(--primary), 10%);
+      background-color: #1f2937;
+      transform: translateY(-1px);
     }
   }
 }
@@ -67,14 +62,17 @@ h1 {
 
 .result {
   border: 1px solid var(--border);
-  border-left: 6px solid var(--primary);
-  border-radius: 6px;
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
   padding: 16px;
   background-color: white;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, border-left-color 0.2s ease,
+    transform 0.2s ease;
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    border-left-color: var(--primary);
   }
 
   &.added {
